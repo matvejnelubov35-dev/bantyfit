@@ -513,37 +513,45 @@ revealItems.forEach(item=>{
 
 let introAlreadyStarted = false;
 
-window.addEventListener('load', () => {
+window.addEventListener('DOMContentLoaded', () => {
   if (introAlreadyStarted) return;
   introAlreadyStarted = true;
 
   const intro = document.getElementById('introVideo');
   const movie = document.getElementById('introMovie');
 
-  if (window.innerWidth <= 768) {
+  const finishIntro = () => {
     if (intro) intro.classList.add('hidden');
     document.body.classList.remove('intro-playing');
     document.body.classList.add('intro-finished');
+
+    if (movie) {
+      movie.pause();
+      movie.currentTime = 0;
+    }
+  };
+
+  if (window.innerWidth <= 768 || !intro || !movie) {
+    finishIntro();
     return;
   }
 
-  if (!intro || !movie) return;
-
   document.body.classList.add('intro-playing');
 
-  const closeIntro = () => {
-    intro.classList.add('hidden');
-    document.body.classList.remove('intro-playing');
-    document.body.classList.add('intro-finished');
-
-    movie.pause();
+  const startIntro = () => {
     movie.currentTime = 0;
+    const playPromise = movie.play();
+    if (playPromise) playPromise.catch(finishIntro);
   };
 
-  movie.addEventListener('ended', closeIntro, { once: true });
+  movie.addEventListener('ended', finishIntro, { once: true });
+  movie.addEventListener('error', finishIntro, { once: true });
 
-  movie.currentTime = 0;
-  movie.play().catch(closeIntro);
+  if (movie.readyState >= 2) {
+    startIntro();
+  } else {
+    movie.addEventListener('canplay', startIntro, { once: true });
+  }
 
-  setTimeout(closeIntro, 3600);
+  setTimeout(finishIntro, 4200);
 });
