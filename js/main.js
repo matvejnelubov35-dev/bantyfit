@@ -547,39 +547,152 @@ window.addEventListener('load', () => {
 
   setTimeout(closeIntro, 3600);
 });
-/* ==========================
-   Partners Gallery
-========================== */
+/* =====================================================
+   PARTNERS APPLE STYLE GALLERY
+===================================================== */
 
-const partnerImage = document.getElementById("partnerImage");
+document.addEventListener("DOMContentLoaded", () => {
+  const partnerShowcase = document.querySelector(".partner-showcase");
 
-if (partnerImage) {
+if(partnerShowcase){
+    setTimeout(()=>{
+        partnerShowcase.classList.add("show");
+    },300);
+}
 
-  const images = [
-    "assets/images/partners/geneticlab-1.jpg",
-    "assets/images/partners/geneticlab-2.jpg",
-    "assets/images/partners/geneticlab-3.jpg",
-    "assets/images/partners/geneticlab-4.jpg",
-    "assets/images/partners/geneticlab-5.jpg",
-    "assets/images/partners/geneticlab-6.jpg"
-  ];
-
-  window.addEventListener("scroll", () => {
-
-    const maxScroll =
-      document.body.scrollHeight - window.innerHeight;
-
-    const progress =
-      window.scrollY / maxScroll;
-
-    const index =
-      Math.min(
-        images.length - 1,
-        Math.floor(progress * images.length)
+  const partnerImages = document.querySelectorAll(
+    ".partner-gallery--desktop .partner-image"
+  );
+  
+  const partnerInfo = document.querySelector(".partner-info");
+  
+  
+  if(!partnerImages.length || !partnerInfo) return;
+  
+  
+  function updatePartnerScrollGallery(){
+  
+      if(window.innerWidth <= 980) return;
+  
+  
+      const rect = partnerInfo.getBoundingClientRect();
+  
+      const sectionTop =
+          window.scrollY + rect.top;
+  
+  
+      const scrollInside =
+          window.scrollY - sectionTop;
+  
+  
+      const maxScroll =
+          partnerInfo.offsetHeight - window.innerHeight;
+  
+  
+      if(maxScroll <= 0) return;
+  
+  
+      const progress = Math.max(
+          0,
+          Math.min(
+              1,
+              scrollInside / maxScroll
+          )
       );
+  
+  
+      const index = Math.min(
+          partnerImages.length - 1,
+          Math.floor(
+              progress * partnerImages.length
+          )
+      );
+  
+  
+      partnerImages.forEach((img,i)=>{
+  
+          img.classList.toggle(
+              "active",
+              i === index
+          );
+  
+      });
+  
+  }
+  
+  
+  window.addEventListener(
+      "scroll",
+      updatePartnerScrollGallery,
+      {passive:true}
+  );
+  
+  
+  updatePartnerScrollGallery();
 
-    partnerImage.src = images[index];
+
+
+const copyPromo = document.getElementById("copyPromo");
+const promoText = document.getElementById("promoText");
+
+if(copyPromo && promoText){
+
+  copyPromo.addEventListener("click", () => {
+
+    navigator.clipboard.writeText(
+      promoText.textContent.trim()
+    );
+
+    const message = document.querySelector(".copy-message");
+
+    if(message){
+      message.classList.add("show");
+
+      setTimeout(()=>{
+        message.classList.remove("show");
+      },2500);
+    }
+
+    copyPromo.textContent = "Скопировано ✓";
+
+    setTimeout(()=>{
+      copyPromo.textContent = "Скопировать промокод";
+    },2000);
 
   });
 
 }
+
+
+const partnerSwiper = document.querySelector(".partner-swiper");
+
+if(partnerSwiper && window.Swiper){
+
+  new Swiper(".partner-swiper", {
+
+    effect: "fade",
+
+    fadeEffect: {
+      crossFade: true
+    },
+
+    loop: true,
+
+    autoplay: {
+      delay: 3000,
+      disableOnInteraction: false,
+    },
+
+    pagination: {
+      el: ".partner-swiper-pagination",
+      clickable: true,
+    },
+
+    speed: 800,
+
+  });
+
+}
+
+
+});
