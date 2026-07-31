@@ -19,6 +19,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <link
+rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
   <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
   (function(m,e,t,r,i,k,a){
@@ -78,105 +81,158 @@
     </div>
   </section>
   
-  <section class="partner-showcase">
-  
+  <section class="partner-showcase" id="partners">
+
     <div class="container">
-  
-      <div class="partner-grid">
-  
-        <div class="partner-gallery">
-  
-          <img
-            src="assets/images/partners/geneticlab-1.jpg"
-            alt="GeneticLab"
-            class="partner-image"
-            id="partnerImage">
-  
+
+        <div class="partner-grid">
+
+            <!-- LEFT -->
+
+            <!-- Desktop: Apple-style scroll gallery -->
+            <div class="partner-gallery partner-gallery--desktop">
+                <img src="assets/images/partners/geneticlab-1.jpg" alt="GeneticLab" class="partner-image active">
+                <img src="assets/images/partners/geneticlab-2.jpg" alt="GeneticLab" class="partner-image">
+                <img src="assets/images/partners/geneticlab-3.jpg" alt="GeneticLab" class="partner-image">
+                <img src="assets/images/partners/geneticlab-4.jpg" alt="GeneticLab" class="partner-image">
+                <img src="assets/images/partners/geneticlab-5.jpg" alt="GeneticLab" class="partner-image">
+                <img src="assets/images/partners/geneticlab-6.jpg" alt="GeneticLab" class="partner-image">
+            </div>
+
+            <!-- Mobile: Swiper fade gallery -->
+            <div class="partner-gallery partner-gallery--mobile">
+                <div class="swiper partner-swiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <img src="assets/images/partners/geneticlab-1.jpg" alt="GeneticLab">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="assets/images/partners/geneticlab-2.jpg" alt="GeneticLab">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="assets/images/partners/geneticlab-3.jpg" alt="GeneticLab">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="assets/images/partners/geneticlab-4.jpg" alt="GeneticLab">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="assets/images/partners/geneticlab-5.jpg" alt="GeneticLab">
+                        </div>
+                        <div class="swiper-slide">
+                            <img src="assets/images/partners/geneticlab-6.jpg" alt="GeneticLab">
+                        </div>
+                    </div>
+                    <div class="swiper-pagination partner-swiper-pagination"></div>
+                </div>
+            </div>
+
+
+            <!-- RIGHT -->
+
+            <div class="partner-info">
+
+                <span class="partner-badge">
+
+                    OFFICIAL PARTNER
+
+                </span>
+
+                <h2>
+
+                    GeneticLab
+
+                    <br>
+
+                    x
+
+                    <br>
+
+                    BANTY_FIT
+
+                </h2>
+
+                <p>
+
+                    Хорошая программа тренировок — это только половина результата.
+
+                    Восстановление, белок, витамины и качественные добавки позволяют
+
+                    прогрессировать быстрее и чувствовать себя лучше.
+
+                </p>
+
+                <p>
+
+                    Именно поэтому я сотрудничаю с GeneticLab
+
+                    и рекомендую продукцию своим клиентам.
+
+                </p>
+
+
+                <div class="partner-benefits">
+
+                    <div>✔ Оригинальная продукция</div>
+
+                    <div>✔ Проверенное качество</div>
+
+                    <div>✔ Скидка по моему промокоду</div>
+
+                    <div>✔ Подходит новичкам и профессионалам</div>
+
+                </div>
+
+
+                <div class="promo-card">
+
+                    <span>
+
+                        ПРОМОКОД
+
+                    </span>
+
+                    <h3 id="promoText">
+
+                        BANTY
+
+                    </h3>
+
+                    <p>
+
+                        Скидка на весь ассортимент GeneticLab
+
+                    </p>
+
+                    <button
+                        id="copyPromo"
+                        class="btn btn-primary">
+
+                        Скопировать промокод
+
+                    </button>
+
+                </div>
+
+
+                <a
+
+                    href="https://geneticlab.ru"
+
+                    target="_blank"
+
+                    class="btn btn-outline">
+
+                    Перейти на сайт
+
+                </a>
+
+            </div>
+
         </div>
-  
-        <div class="partner-info">
-  
-          <span class="partner-badge">
-            GENETICLAB
-          </span>
-  
-          <h2>
-            Результат начинается
-            не только
-            с тренировок
-          </h2>
-  
-          <p>
-  
-            Грамотно построенные тренировки — это лишь часть прогресса.
-  
-            Восстановление, достаточное количество белка, витамины и спортивные
-            добавки позволяют быстрее восстанавливаться, лучше тренироваться
-            и стабильно двигаться к своей цели.
-  
-          </p>
-  
-          <p>
-  
-            Именно поэтому я сотрудничаю с GeneticLab и рекомендую продукцию
-            своим клиентам.
-  
-          </p>
-  
-          <div class="partner-benefits">
-  
-            <div>✔ Оригинальная продукция</div>
-            <div>✔ Проверенное качество</div>
-            <div>✔ Подходит новичкам и опытным спортсменам</div>
-  
-          </div>
-  
-          <div class="promo-card">
-  
-            <span>
-  
-              Используй промокод
-  
-            </span>
-  
-            <h3>
-  
-              BANTY
-  
-            </h3>
-  
-            <p>
-  
-              Получи скидку на заказ
-  
-            </p>
-  
-            <button
-              class="btn btn-primary"
-              id="copyPromo">
-  
-              Скопировать промокод
-  
-            </button>
-  
-          </div>
-  
-          <a
-            href="https://geneticlab.ru/"
-            target="_blank"
-            class="btn btn-outline">
-  
-            Перейти на сайт GeneticLab
-  
-          </a>
-  
-        </div>
-  
-      </div>
-  
+
     </div>
-  
-  </section>
+
+</section>
 
 
 <footer class="footer">
@@ -227,7 +283,7 @@
       </div>
     </div>
   </footer>
-
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
