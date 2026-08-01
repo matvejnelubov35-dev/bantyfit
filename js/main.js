@@ -696,3 +696,87 @@ if(partnerSwiper && window.Swiper){
 
 
 });
+
+/* =====================================================
+   GIVEAWAY ENVELOPE OPEN
+===================================================== */
+
+const giveawayEnvelope = document.querySelector("#giveawayEnvelope");
+
+console.log("Giveaway:", giveawayEnvelope);
+
+
+function createGiftParticles(){
+
+    const rect = giveawayEnvelope.getBoundingClientRect();
+
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + 100;
+
+
+    for(let i = 0; i < 40; i++){
+
+        const spark = document.createElement("span");
+
+        spark.className = "spark";
+
+
+        spark.style.left = centerX + "px";
+        spark.style.top = centerY + "px";
+
+
+        const x = (Math.random() - 0.5) * 350;
+        const y = -(Math.random() * 250 + 80);
+
+
+        spark.style.setProperty("--x", x + "px");
+        spark.style.setProperty("--y", y + "px");
+
+
+        document.body.appendChild(spark);
+
+
+        setTimeout(()=>{
+            spark.remove();
+        },1200);
+
+    }
+
+}
+
+
+function createGiftFlash(){
+
+    const flash = document.createElement("div");
+
+    flash.className = "giveaway-flash";
+
+    document.body.appendChild(flash);
+
+
+    setTimeout(()=>{
+        flash.remove();
+    },700);
+
+}
+
+
+
+if(giveawayEnvelope){
+
+    giveawayEnvelope.addEventListener("click",()=>{
+
+        giveawayEnvelope.classList.toggle("open");
+
+
+        if(giveawayEnvelope.classList.contains("open")){
+
+            createGiftParticles();
+
+            createGiftFlash();
+
+        }
+
+    });
+
+}
