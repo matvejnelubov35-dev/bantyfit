@@ -3498,20 +3498,25 @@ body.intro-finished .hero {
   }
 
   .partner-swiper,
+  .auto-swiper,
   .partner-swiper .swiper-wrapper,
-  .partner-swiper .swiper-slide {
+  .auto-swiper .swiper-wrapper,
+  .partner-swiper .swiper-slide,
+  .auto-swiper .swiper-slide {
     width: 100%;
     height: 100%;
   }
 
-  .partner-swiper .swiper-slide img {
+  .partner-swiper .swiper-slide img,
+  .auto-swiper .swiper-slide img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
   }
 
-  .partner-swiper-pagination {
+  .partner-swiper-pagination,
+  .auto-swiper-pagination {
     position: absolute;
     bottom: 18px !important;
     left: 50%;
@@ -3523,7 +3528,8 @@ body.intro-finished .hero {
     width: auto !important;
   }
 
-  .partner-swiper-pagination .swiper-pagination-bullet {
+  .partner-swiper-pagination .swiper-pagination-bullet,
+  .auto-swiper-pagination .swiper-pagination-bullet {
     width: 8px;
     height: 8px;
     margin: 0 !important;
@@ -3533,7 +3539,8 @@ body.intro-finished .hero {
     transition: width .45s ease, background .45s ease, box-shadow .45s ease, border-radius .45s ease;
   }
 
-  .partner-swiper-pagination .swiper-pagination-bullet-active {
+  .partner-swiper-pagination .swiper-pagination-bullet-active,
+  .auto-swiper-pagination .swiper-pagination-bullet-active {
     width: 28px;
     border-radius: 999px;
     background: #3ba8ff;
@@ -4279,6 +4286,534 @@ box-shadow:
     opacity:0;
     transform:scale(2);
 
+  }
+
+}
+/* ===========================================
+   BRAND_AUTO PARTNER
+=========================================== */
+
+.partner-showcase--auto {
+  position: relative;
+  overflow: hidden;
+}
+
+.partner-showcase--auto::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background:
+    radial-gradient(
+      circle at 15% 50%,
+      rgba(76,190,255,.08),
+      transparent 42%
+    );
+
+  pointer-events: none;
+}
+
+/* ---------- GRID ---------- */
+
+.partner-showcase--auto .partner-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(320px, .75fr);
+  gap: 70px;
+  align-items: center;
+}
+
+/* ---------- LARGE GALLERY ---------- */
+
+.partner-showcase--auto .partner-gallery--desktop {
+  position: relative;
+  width: 100%;
+  height: min(78vh, 760px);
+
+  overflow: hidden;
+  border-radius: 30px;
+
+  background: #111;
+
+  box-shadow:
+    0 30px 90px rgba(0,0,0,.45),
+    0 0 70px rgba(76,190,255,.06);
+}
+
+/* Image */
+
+.partner-showcase--auto .partner-gallery--desktop .partner-image {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+
+  opacity: 0;
+  transform: scale(1.08);
+
+  filter:
+    saturate(.88)
+    contrast(1.08);
+
+  transition:
+    opacity .9s ease,
+    transform 1.8s cubic-bezier(.22,1,.36,1),
+    filter 1s ease;
+}
+
+/* Active image */
+
+.partner-showcase--auto .partner-gallery--desktop .partner-image.active {
+  opacity: 1;
+  transform: scale(1);
+
+  filter:
+    saturate(1)
+    contrast(1.08);
+}
+
+/* ---------- TEXT ---------- */
+
+.partner-showcase--auto .partner-info {
+  position: relative;
+  z-index: 2;
+}
+
+/* Badge */
+
+.partner-showcase--auto .partner-badge {
+  background: rgba(76,190,255,.10);
+  border: 1px solid rgba(76,190,255,.20);
+}
+
+/* Heading */
+
+.partner-showcase--auto .partner-info h2 {
+  margin-top: 22px;
+}
+
+/* Paragraphs */
+
+.partner-showcase--auto .partner-info > p {
+  max-width: 560px;
+}
+
+/* Benefits */
+
+.partner-showcase--auto .partner-benefits {
+  margin-top: 28px;
+}
+
+/* Promo */
+
+.partner-showcase--auto .promo-card {
+  border-color: rgba(76,190,255,.18);
+
+  box-shadow:
+    0 15px 45px rgba(0,0,0,.20);
+}
+
+.partner-showcase--auto .promo-card h3 {
+  letter-spacing: .08em;
+}
+
+/* ---------- GALLERY PROGRESS ---------- */
+
+.partner-showcase--auto .auto-gallery-progress {
+  position: absolute;
+
+  left: 28px;
+  right: 28px;
+  bottom: 24px;
+
+  z-index: 5;
+
+  display: flex;
+  gap: 8px;
+}
+
+.partner-showcase--auto .auto-gallery-progress span {
+  flex: 1;
+
+  height: 3px;
+
+  border-radius: 999px;
+
+  background: rgba(255,255,255,.25);
+
+  overflow: hidden;
+
+  position: relative;
+}
+
+.partner-showcase--auto .auto-gallery-progress span.active {
+  background: rgba(255,255,255,.75);
+}
+
+.partner-showcase--auto .auto-gallery-progress span.active::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background: #fff;
+
+  transform-origin: left;
+  animation: brandAutoProgress 1s ease forwards;
+}
+
+@keyframes brandAutoProgress {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ---------- DESKTOP ENTRANCE ---------- */
+
+.partner-showcase--auto .partner-gallery--desktop {
+  opacity: 0;
+  transform: translateX(-50px);
+
+  transition:
+    opacity 1s ease,
+    transform 1.1s cubic-bezier(.22,1,.36,1);
+}
+
+.partner-showcase--auto.auto-visible .partner-gallery--desktop {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.partner-showcase--auto .partner-info {
+  opacity: 0;
+  transform: translateX(45px);
+
+  transition:
+    opacity .9s ease .25s,
+    transform 1s cubic-bezier(.22,1,.36,1);
+}
+
+.partner-showcase--auto.auto-visible .partner-info {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 980px) {
+
+  .partner-showcase--auto .partner-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .partner-showcase--auto .partner-gallery--desktop {
+    height: 70vh;
+    min-height: 500px;
+
+    opacity: 1;
+    transform: none;
+  }
+
+  .partner-showcase--auto .partner-info {
+    opacity: 1;
+    transform: none;
+  }
+
+  .partner-showcase--auto .partner-gallery--desktop .partner-image {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+
+  .partner-showcase--auto .partner-gallery--desktop .partner-image.active {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+}
+
+@media (max-width: 600px) {
+
+  .partner-showcase--auto .partner-gallery--desktop {
+    height: 65vh;
+    min-height: 420px;
+
+    border-radius: 22px;
+  }
+
+  .partner-showcase--auto .auto-gallery-progress {
+    left: 18px;
+    right: 18px;
+    bottom: 18px;
+  }
+
+}
+/* =====================================================
+   BRAND_AUTO — PREMIUM SCROLL GALLERY
+===================================================== */
+
+.partner-showcase--auto {
+  position: relative;
+  overflow: visible;
+}
+
+/* Сам блок с фотографиями */
+.partner-showcase--auto .partner-gallery--desktop {
+  position: sticky;
+  top: 100px;
+
+  width: 100%;
+  height: calc(100vh - 140px);
+
+  min-height: 620px;
+
+  overflow: hidden;
+
+  border-radius: 28px;
+
+  background: #111;
+
+  box-shadow:
+    0 30px 100px rgba(0,0,0,.45),
+    0 0 70px rgba(76,190,255,.06);
+}
+
+/* Все фотографии лежат друг на друге */
+.partner-showcase--auto .partner-gallery--desktop .partner-image {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+
+  opacity: 0;
+
+  transform:
+    scale(1.06)
+    translateX(25px);
+
+  filter:
+    saturate(.88)
+    contrast(1.08);
+
+  transition:
+    opacity .9s cubic-bezier(.22,1,.36,1),
+    transform 1.2s cubic-bezier(.22,1,.36,1),
+    filter 1s ease;
+
+  pointer-events: none;
+}
+
+/* Активный кадр */
+.partner-showcase--auto .partner-gallery--desktop .partner-image.active {
+  opacity: 1;
+
+  transform:
+    scale(1)
+    translateX(0);
+
+  filter:
+    saturate(1)
+    contrast(1.08);
+
+  z-index: 2;
+}
+
+/* Лёгкое затемнение по краям */
+.partner-showcase--auto .partner-gallery--desktop::after {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  z-index: 5;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0,0,0,.12),
+      transparent 35%,
+      transparent 70%,
+      rgba(0,0,0,.18)
+    );
+
+  opacity: .7;
+}
+
+/* Небольшой эффект при наведении */
+.partner-showcase--auto .partner-gallery--desktop:hover .partner-image.active {
+  transform: scale(1.015);
+}
+
+/* Текст немного ближе к фотографии */
+.partner-showcase--auto .partner-info {
+  position: relative;
+  z-index: 10;
+}
+
+/* Автомобильный бейдж */
+.partner-showcase--auto .partner-badge {
+  background: rgba(76,190,255,.10);
+
+  border-color: rgba(76,190,255,.25);
+
+  color: #5dc7ff;
+}
+
+/* Карточка партнёрства */
+.partner-showcase--auto .promo-card {
+  border-color: rgba(76,190,255,.18);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,.035),
+      rgba(255,255,255,.015)
+    );
+}
+
+.partner-showcase--auto .promo-card h3 {
+  letter-spacing: .08em;
+}
+
+/* Индикатор фотографий */
+.partner-showcase--auto .auto-gallery-indicator {
+
+  position: absolute;
+
+  left: 28px;
+  bottom: 28px;
+
+  z-index: 10;
+
+  display: flex;
+
+  gap: 7px;
+
+  padding: 8px 10px;
+
+  border-radius: 999px;
+
+  background: rgba(0,0,0,.45);
+
+  border: 1px solid rgba(255,255,255,.10);
+
+  backdrop-filter: blur(14px);
+}
+
+.partner-showcase--auto .auto-gallery-indicator span {
+
+  display: block;
+
+  width: 22px;
+  height: 3px;
+
+  border-radius: 999px;
+
+  background: rgba(255,255,255,.25);
+
+  transition:
+    width .45s ease,
+    background .45s ease;
+}
+
+.partner-showcase--auto .auto-gallery-indicator span.active {
+
+  width: 42px;
+
+  background: #fff;
+}
+
+/* Номер фотографии */
+.partner-showcase--auto .auto-gallery-counter {
+
+  position: absolute;
+
+  right: 28px;
+  bottom: 28px;
+
+  z-index: 10;
+
+  color: rgba(255,255,255,.8);
+
+  font-family: var(--font-title);
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  letter-spacing: .08em;
+
+  text-shadow: 0 2px 10px rgba(0,0,0,.5);
+}
+
+
+@media (min-width: 981px) {
+
+  .partner-showcase--auto .partner-info {
+    min-height: 145vh;
+  }
+
+}
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media(max-width: 980px) {
+
+  .partner-showcase--auto .partner-gallery--desktop {
+
+    position: relative;
+
+    top: auto;
+
+    height: 70vh;
+
+    min-height: 480px;
+
+    max-height: 680px;
+
+    margin-bottom: 35px;
+
+    border-radius: 22px;
+  }
+
+  .partner-showcase--auto .partner-gallery--desktop .partner-image {
+
+    transform: scale(1.04);
+  }
+
+  .partner-showcase--auto
+  .partner-gallery--desktop
+  .partner-image.active {
+
+    transform: scale(1);
+  }
+
+  .partner-showcase--auto .auto-gallery-indicator {
+
+    left: 18px;
+    bottom: 18px;
+  }
+
+  .partner-showcase--auto .auto-gallery-counter {
+
+    right: 18px;
+    bottom: 18px;
   }
 
 }

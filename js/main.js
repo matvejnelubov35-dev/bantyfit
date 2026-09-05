@@ -548,152 +548,272 @@ window.addEventListener('load', () => {
   setTimeout(closeIntro, 3600);
 });
 /* =====================================================
-   PARTNERS APPLE STYLE GALLERY
+   PARTNERS — SCROLL GALLERIES
 ===================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
-  const partnerShowcase = document.querySelector(".partner-showcase");
 
-if(partnerShowcase){
-    setTimeout(()=>{
-        partnerShowcase.classList.add("show");
-    },300);
-}
+  const desktopMQ = window.matchMedia("(min-width: 981px)");
 
-  const partnerImages = document.querySelectorAll(
-    ".partner-gallery--desktop .partner-image"
-  );
-  
-  const partnerInfo = document.querySelector(".partner-info");
-  
-  
-  if(!partnerImages.length || !partnerInfo) return;
-  
-  
-  function updatePartnerScrollGallery(){
-  
-      if(window.innerWidth <= 980) return;
-  
-  
-      const rect = partnerInfo.getBoundingClientRect();
-  
-      const sectionTop =
-          window.scrollY + rect.top;
-  
-  
-      const scrollInside =
-          window.scrollY - sectionTop;
-  
-  
-      const maxScroll =
-          partnerInfo.offsetHeight - window.innerHeight;
-  
-  
-      if(maxScroll <= 0) return;
-  
-  
-      const progress = Math.max(
-          0,
-          Math.min(
-              1,
-              scrollInside / maxScroll
-          )
-      );
-  
-  
-      const index = Math.min(
-          partnerImages.length - 1,
-          Math.floor(
-              progress * partnerImages.length
-          )
-      );
-  
-  
-      partnerImages.forEach((img,i)=>{
-  
-          img.classList.toggle(
-              "active",
-              i === index
-          );
-  
+  function initScrollGallery(showcase, imageSelector) {
+
+    const images = showcase.querySelectorAll(imageSelector);
+    const info = showcase.querySelector(".partner-info");
+
+    if (!images.length || !info) return null;
+
+    let currentIndex = -1;
+
+    function setActiveImage(index) {
+
+      if (index === currentIndex) return;
+
+      currentIndex = index;
+
+      images.forEach((img, i) => {
+        img.classList.toggle("active", i === index);
       });
-  
-  }
-  
-  
-  window.addEventListener(
-      "scroll",
-      updatePartnerScrollGallery,
-      {passive:true}
-  );
-  
-  
-  updatePartnerScrollGallery();
 
+      showcase.dispatchEvent(
+        new CustomEvent("gallerychange", {
+          detail: { index, total: images.length }
+        })
+      );
 
-
-const copyPromo = document.getElementById("copyPromo");
-const promoText = document.getElementById("promoText");
-
-if(copyPromo && promoText){
-
-  copyPromo.addEventListener("click", () => {
-
-    navigator.clipboard.writeText(
-      promoText.textContent.trim()
-    );
-
-    const message = document.querySelector(".copy-message");
-
-    if(message){
-      message.classList.add("show");
-
-      setTimeout(()=>{
-        message.classList.remove("show");
-      },2500);
     }
 
-    copyPromo.textContent = "Скопировано ✓";
+    function updateGallery() {
 
-    setTimeout(()=>{
-      copyPromo.textContent = "Скопировать промокод";
-    },2000);
+      if (!desktopMQ.matches) return;
+
+      const rect = info.getBoundingClientRect();
+      const sectionTop = window.scrollY + rect.top;
+      const scrollInside = window.scrollY - sectionTop;
+      const maxScroll = info.offsetHeight - window.innerHeight;
+
+      if (maxScroll <= 0) {
+        setActiveImage(0);
+        return;
+      }
+
+      const progress = Math.max(
+        0,
+        Math.min(1, scrollInside / maxScroll)
+      );
+
+      const index = Math.min(
+        images.length - 1,
+        Math.floor(progress * images.length)
+      );
+
+      setActiveImage(index);
+
+    }
+
+    window.addEventListener("scroll", updateGallery, { passive: true });
+    desktopMQ.addEventListener("change", updateGallery);
+    updateGallery();
+
+    return { setActiveImage, images };
+
+  }
+
+
+  /* --- Reveal all partner sections --- */
+
+  document.querySelectorAll(".partner-showcase").forEach((section) => {
+
+    const observer = new IntersectionObserver((entries) => {
+
+      entries.forEach((entry) => {
+
+        if (entry.isIntersecting) {
+          section.classList.add("show");
+        }
+
+      });
+
+    }, { threshold: 0.12 });
+
+    observer.observe(section);
 
   });
 
-}
 
+  /* --- Text reveal for partner blocks --- */
 
-const partnerSwiper = document.querySelector(".partner-swiper");
+  document.querySelectorAll(".partner-info").forEach((info) => {
 
-if(partnerSwiper && window.Swiper){
+    const observer = new IntersectionObserver((entries) => {
 
-  new Swiper(".partner-swiper", {
+      entries.forEach((entry) => {
 
-    effect: "fade",
+        if (entry.isIntersecting) {
+          info.classList.add("reveal");
+        }
 
-    fadeEffect: {
-      crossFade: true
-    },
+      });
 
-    loop: true,
+    }, { threshold: 0.2 });
 
-    autoplay: {
-      delay: 3000,
-      disableOnInteraction: false,
-    },
-
-    pagination: {
-      el: ".partner-swiper-pagination",
-      clickable: true,
-    },
-
-    speed: 800,
+    observer.observe(info);
 
   });
 
-}
 
+  /* --- GeneticLab --- */
+
+  const geneticShowcase =
+    document.querySelector(".partner-showcase:not(.partner-showcase--auto)");
+
+  if (geneticShowcase) {
+    initScrollGallery(
+      geneticShowcase,
+      ".partner-gallery--desktop .partner-image"
+    );
+  }
+
+
+  /* --- Brand_auto --- */
+
+  const autoShowcase =
+    document.querySelector(".partner-showcase--auto");
+
+  if (autoShowcase) {
+
+    const autoGallery =
+      autoShowcase.querySelector(".partner-gallery--desktop");
+
+    const galleryApi = initScrollGallery(
+      autoShowcase,
+      ".partner-gallery--desktop .partner-image"
+    );
+
+    if (autoGallery && galleryApi) {
+
+      const indicator = document.createElement("div");
+      indicator.className = "auto-gallery-indicator";
+
+      galleryApi.images.forEach((_, index) => {
+
+        const dot = document.createElement("span");
+
+        if (index === 0) dot.classList.add("active");
+
+        indicator.appendChild(dot);
+
+      });
+
+      autoGallery.appendChild(indicator);
+
+      const counter = document.createElement("div");
+      counter.className = "auto-gallery-counter";
+      counter.textContent =
+        `01 / ${String(galleryApi.images.length).padStart(2, "0")}`;
+
+      autoGallery.appendChild(counter);
+
+      autoShowcase.addEventListener("gallerychange", (event) => {
+
+        const { index, total } = event.detail;
+
+        indicator.querySelectorAll("span").forEach((dot, i) => {
+          dot.classList.toggle("active", i === index);
+        });
+
+        counter.textContent =
+          `${String(index + 1).padStart(2, "0")} / ${String(total).padStart(2, "0")}`;
+
+      });
+
+    }
+
+    const autoRevealObserver = new IntersectionObserver((entries) => {
+
+      entries.forEach((entry) => {
+
+        if (entry.isIntersecting) {
+          autoShowcase.classList.add("auto-visible");
+        }
+
+      });
+
+    }, { threshold: 0.15 });
+
+    autoRevealObserver.observe(autoShowcase);
+
+  }
+
+
+  /* --- Promo code --- */
+
+  const copyPromo = document.getElementById("copyPromo");
+  const promoText = document.getElementById("promoText");
+
+  if (copyPromo && promoText) {
+
+    copyPromo.addEventListener("click", () => {
+
+      navigator.clipboard.writeText(promoText.textContent.trim());
+
+      const message = document.querySelector(".copy-message");
+
+      if (message) {
+        message.classList.add("show");
+        setTimeout(() => message.classList.remove("show"), 2500);
+      }
+
+      copyPromo.textContent = "Скопировано ✓";
+
+      setTimeout(() => {
+        copyPromo.textContent = "Скопировать промокод";
+      }, 2000);
+
+    });
+
+  }
+
+
+  /* --- Mobile swipers --- */
+
+  function initPartnerSwipers() {
+
+    if (typeof Swiper === "undefined") return;
+
+    const isMobile = !desktopMQ.matches;
+
+    document.querySelectorAll(".partner-swiper, .auto-swiper").forEach((el) => {
+
+      const paginationEl =
+        el.querySelector(".swiper-pagination");
+
+      if (isMobile && !el.swiper) {
+
+        new Swiper(el, {
+          effect: "fade",
+          fadeEffect: { crossFade: true },
+          speed: 900,
+          grabCursor: true,
+          pagination: {
+            el: paginationEl,
+            clickable: true
+          }
+        });
+
+      } else if (!isMobile && el.swiper) {
+
+        el.swiper.destroy(true, true);
+
+      }
+
+    });
+
+  }
+
+  if (document.querySelector(".partner-swiper, .auto-swiper")) {
+    initPartnerSwipers();
+    desktopMQ.addEventListener("change", initPartnerSwipers);
+  }
 
 });
 
